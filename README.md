@@ -53,9 +53,10 @@ explore and engage with this sacred text.
 <img src="https://github.com/Drashtipatel296/pr_4_departure/assets/143180636/742822dc-3ce7-4a53-b94b-5a1a8959e51d" width=240>
 
 
+### Video :
 
 
-
+https://github.com/Drashtipatel296/pr_4_departure/assets/143180636/88ad2726-edb3-4b02-ad26-9946cca73166
 
 
 
