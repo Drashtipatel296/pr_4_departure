@@ -1,6 +1,6 @@
+import 'package:brahma_puran/provider/language_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../provider/language_provider.dart';
 import '../../provider/theme_provider.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -8,7 +8,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    final providerFalse = Provider.of<LanguageProvider>(context, listen: false);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -32,24 +32,25 @@ class SettingsScreen extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.language,size: 20,),
               title: const Text('Language',style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold),),
-              trailing: DropdownButton<Locale>(
-                value: Provider.of<LanguageProvider>(context).locale,
-                icon: const Icon(Icons.arrow_downward),
-                onChanged: (Locale? newLocale) {
-                  if (newLocale != null) {
-                    Provider.of<LanguageProvider>(context, listen: false).setLocale(newLocale);
-                  }
+              trailing: PopupMenuButton(
+                icon: const Icon(Icons.translate),
+                onSelected: (value) {
+                  providerFalse.updateSelectedLanguage(value);
                 },
-                items: [
-                  const Locale('en'),
-                  const Locale('hi'),
-                  const Locale('gu'),
-                ].map<DropdownMenuItem<Locale>>((Locale locale) {
-                  return DropdownMenuItem<Locale>(
-                    value: locale,
-                    child: Text(locale.languageCode),
-                  );
-                }).toList(),
+                itemBuilder: (context) => [
+                  const PopupMenuItem<String>(
+                    value: 'hindi',
+                    child: Text('Hindi'),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: 'english',
+                    child: Text('English'),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: 'gujarati',
+                    child: Text('Gujarati'),
+                  ),
+                ],
               ),
             ),
             const Divider(),

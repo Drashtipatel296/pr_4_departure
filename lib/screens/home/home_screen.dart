@@ -6,10 +6,10 @@ import 'package:provider/provider.dart';
 import '../../provider/bottem_provider.dart';
 
 final List<Widget> _pages = [
-  DohaScreen(),
-  FavoriteScreen(),
-  FlutterLogo(),
-  SettingsScreen(),
+  const DohaScreen(),
+  const FavoriteScreen(),
+  const FlutterLogo(),
+  const SettingsScreen(),
 ];
 
 class HomeScreen extends StatelessWidget {

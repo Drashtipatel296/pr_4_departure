@@ -1,10 +1,10 @@
 import 'package:brahma_puran/model/data_model.dart';
 import 'package:brahma_puran/provider/fav_provider.dart';
+import 'package:brahma_puran/provider/language_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
 import '../../provider/data_provider.dart';
-import '../favorite/favorite_screen.dart';
 
 class DetailScreen extends StatelessWidget {
   final int index;
@@ -13,7 +13,10 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     FavProvider favProviderFalse = Provider.of<FavProvider>(context,listen: false);
+    final languageProvider = Provider.of<LanguageProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.yellow.shade800,
@@ -31,8 +34,23 @@ class DetailScreen extends StatelessWidget {
             }
 
             final data = providerF.data[index];
-            final shareContent = 'दोहा: ${data.shlok}\n\nअर्थ: ${data.hindi}';
             final isFavorite = favProviderFalse.isFavorite(data);
+
+            String? translation;
+            switch (languageProvider.selectedLanguage) {
+              case 'english':
+                translation = data.eng;
+                break;
+              case 'gujarati':
+                translation = data.guj;
+                break;
+              case 'hindi':
+              default:
+                translation = data.hindi;
+                break;
+            }
+
+            final shareContent = 'दोहा: ${data.shlok}\n\nअर्थ: $translation';
 
             return Container(
               height: MediaQuery.of(context).size.height * 0.7,
@@ -63,7 +81,8 @@ class DetailScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     Text(
-                      data.hindi.toString(),
+                      translation!,
+                      overflow: TextOverflow.fade,
                       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(height: 30,),
@@ -74,7 +93,7 @@ class DetailScreen extends StatelessWidget {
                           ShareExtend.share(shareContent, "text");
                         }, icon: const Icon(Icons.share,size: 30,)),
                         IconButton(onPressed: () {
-                          favProviderFalse.addToFavorites(data as DataModel);
+                          favProviderFalse.addToFavorites(data, translation!);
                         }, icon: Icon(
                           Icons.favorite,
                           size: 30,

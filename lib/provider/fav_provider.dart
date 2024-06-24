@@ -20,12 +20,14 @@ class FavProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addToFavorites(DataModel item) {
-    if (_favorites.contains(item)) {
-      _favorites.remove(item);
-    } else {
-      _favorites.add(item);
-    }
+  void addToFavorites(DataModel item, String translation) {
+    DataModel favoriteItem = DataModel(
+      shlok: item.shlok,
+      hindi: translation,
+      eng: item.eng,
+      guj: item.guj,
+    );
+    _favorites.add(favoriteItem);
     notifyListeners();
   }
 
