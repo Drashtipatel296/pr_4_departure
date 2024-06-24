@@ -5,6 +5,7 @@ import 'package:brahma_puran/provider/language_provider.dart';
 import 'package:brahma_puran/provider/share_provider.dart';
 import 'package:brahma_puran/provider/theme_provider.dart';
 import 'package:brahma_puran/screens/home/home_screen.dart';
+import 'package:brahma_puran/screens/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -48,7 +49,7 @@ class RahimKeDohe extends StatelessWidget {
           theme: Provider.of<ThemeChangeProvider>(context).isDark
               ? ThemeData.dark()
               : ThemeData.light(),
-          home: const HomeScreen(),
+          home: const SplashScreen(),
         );
       },
     );

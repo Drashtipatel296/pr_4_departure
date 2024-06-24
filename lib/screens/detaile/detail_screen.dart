@@ -1,10 +1,10 @@
-import 'package:brahma_puran/model/data_model.dart';
-import 'package:brahma_puran/provider/fav_provider.dart';
-import 'package:brahma_puran/provider/language_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:share_extend/share_extend.dart';
+
 import '../../provider/data_provider.dart';
+import '../../provider/fav_provider.dart';
+import '../../provider/language_provider.dart';
 
 class DetailScreen extends StatelessWidget {
   final int index;
@@ -13,8 +13,7 @@ class DetailScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    FavProvider favProviderFalse = Provider.of<FavProvider>(context,listen: false);
+    final favProvider = Provider.of<FavProvider>(context);
     final languageProvider = Provider.of<LanguageProvider>(context);
 
     return Scaffold(
@@ -34,7 +33,7 @@ class DetailScreen extends StatelessWidget {
             }
 
             final data = providerF.data[index];
-            final isFavorite = favProviderFalse.isFavorite(data);
+            final isFavorite = favProvider.isFavorite(data);
 
             String? translation;
             switch (languageProvider.selectedLanguage) {
@@ -62,7 +61,7 @@ class DetailScreen extends StatelessWidget {
                 ),
               ),
               child: Padding(
-                padding: const EdgeInsets.only(top: 120,left: 35,right: 35),
+                padding: const EdgeInsets.only(top: 120, left: 35, right: 35),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -74,7 +73,7 @@ class DetailScreen extends StatelessWidget {
                       data.shlok.toString(),
                       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(height: 10,),
+                    const SizedBox(height: 10),
                     const Text(
                       'अर्थ:',
                       style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
@@ -85,20 +84,26 @@ class DetailScreen extends StatelessWidget {
                       overflow: TextOverflow.fade,
                       style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
-                    const SizedBox(height: 30,),
+                    const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                        IconButton(onPressed: () {
-                          ShareExtend.share(shareContent, "text");
-                        }, icon: const Icon(Icons.share,size: 30,)),
-                        IconButton(onPressed: () {
-                          favProviderFalse.addToFavorites(data, translation!);
-                        }, icon: Icon(
-                          Icons.favorite,
-                          size: 30,
-                          color: isFavorite ? Colors.red : Colors.grey,
-                        ),),
+                        IconButton(
+                          onPressed: () {
+                            ShareExtend.share(shareContent, "text");
+                          },
+                          icon: const Icon(Icons.share, size: 30),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            favProvider.addToFavorites(data);
+                          },
+                          icon: Icon(
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                            size: 30,
+                            color: isFavorite ? Colors.red : Colors.grey,
+                          ),
+                        ),
                       ],
                     ),
                   ],

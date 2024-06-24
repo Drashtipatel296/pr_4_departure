@@ -1,12 +1,6 @@
-import 'package:brahma_puran/model/data_model.dart';
 import 'package:flutter/material.dart';
 
-class Data {
-  final String shlok;
-  final String hindi;
-
-  Data({required this.shlok, required this.hindi});
-}
+import '../model/data_model.dart';
 
 class FavProvider with ChangeNotifier {
   List<DataModel> _data = [];
@@ -20,14 +14,12 @@ class FavProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void addToFavorites(DataModel item, String translation) {
-    DataModel favoriteItem = DataModel(
-      shlok: item.shlok,
-      hindi: translation,
-      eng: item.eng,
-      guj: item.guj,
-    );
-    _favorites.add(favoriteItem);
+  void addToFavorites(DataModel item) {
+    if (isFavorite(item)) {
+      _favorites.remove(item);
+    } else {
+      _favorites.add(item);
+    }
     notifyListeners();
   }
 
